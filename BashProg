@@ -1,0 +1,33 @@
+#!/bin/bash
+echo "User Information:">log.txt
+echo "---------------------------------------">>log.txt
+finger ubuntu>>log.txt
+echo "#######################################">>log.txt
+echo "OS type/brand:">>log.txt
+echo "---------------------------------------">>log.txt
+hostnamectl>>log.txt
+echo "#######################################">>log.txt
+echo "OS distribution:">>log.txt
+echo "---------------------------------------">>log.txt
+uname -r>>log.txt
+echo "#######################################">>log.txt
+echo "OS Version:">>log.txt
+echo "---------------------------------------">>log.txt
+uname -a>>log.txt
+echo "#######################################">>log.txt
+echo "Kernel Version:">>log.txt
+echo "---------------------------------------">>log.txt
+uname -v>>log.txt
+echo "#######################################">>log.txt
+echo "Kernel GCC Verion build and Build time:">>log.txt
+echo "---------------------------------------">>log.txt
+dpkg --print-architecture>>log.txt
+echo "#######################################">>log.txt
+arch>>log.txt
+echo "#######################################">>log.txt
+echo "Information on file system memory:">>log.txt
+echo "---------------------------------------">>log.txt
+file /sbin/init>>log.txt
+cat /proc/meminfo>>log.txt
+echo "#######################################">>log.txt
+

@@ -1,0 +1,89 @@
+User Information:
+---------------------------------------
+Login: ubuntu         			Name: ubuntu
+Directory: /home/ubuntu             	Shell: /bin/bash
+On since Thu Jan 24 21:35 (MST) on :0 from :0 (messages off)
+No mail.
+No Plan.
+#######################################
+OS type/brand:
+---------------------------------------
+   Static hostname: ubuntu-Inspiron-7573
+         Icon name: computer-convertible
+           Chassis: convertible
+        Machine ID: fc374e019fb0479185fef0ea3fe1646a
+           Boot ID: 6520e4f24e8640c29e8e7232892e1694
+  Operating System: Ubuntu 18.04.1 LTS
+            Kernel: Linux 4.15.0-39-generic
+      Architecture: x86-64
+#######################################
+OS distribution:
+---------------------------------------
+4.15.0-39-generic
+#######################################
+OS Version:
+---------------------------------------
+Linux ubuntu-Inspiron-7573 4.15.0-39-generic #42-Ubuntu SMP Tue Oct 23 15:48:01 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+#######################################
+Kernel Version:
+---------------------------------------
+#42-Ubuntu SMP Tue Oct 23 15:48:01 UTC 2018
+#######################################
+Kernel GCC Verion build and Build time:
+---------------------------------------
+amd64
+#######################################
+x86_64
+#######################################
+Information on file system memory:
+---------------------------------------
+/sbin/init: symbolic link to /lib/systemd/systemd
+MemTotal:       16157560 kB
+MemFree:        11304476 kB
+MemAvailable:   12125216 kB
+Buffers:           77268 kB
+Cached:          2553300 kB
+SwapCached:            0 kB
+Active:          2336032 kB
+Inactive:        2219868 kB
+Active(anon):    1927664 kB
+Inactive(anon):  1584760 kB
+Active(file):     408368 kB
+Inactive(file):   635108 kB
+Unevictable:          16 kB
+Mlocked:              16 kB
+SwapTotal:       1130884 kB
+SwapFree:        1130884 kB
+Dirty:               288 kB
+Writeback:             8 kB
+AnonPages:       1925432 kB
+Mapped:           982300 kB
+Shmem:           1586708 kB
+Slab:             130072 kB
+SReclaimable:      66376 kB
+SUnreclaim:        63696 kB
+KernelStack:       14068 kB
+PageTables:        52396 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     9209664 kB
+Committed_AS:    8772416 kB
+VmallocTotal:   34359738367 kB
+VmallocUsed:           0 kB
+VmallocChunk:          0 kB
+HardwareCorrupted:     0 kB
+AnonHugePages:         0 kB
+ShmemHugePages:        0 kB
+ShmemPmdMapped:        0 kB
+CmaTotal:              0 kB
+CmaFree:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+DirectMap4k:      217868 kB
+DirectMap2M:     6856704 kB
+DirectMap1G:     9437184 kB
+#######################################
