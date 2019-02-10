@@ -6,37 +6,40 @@
 #include <sys/types.h>
 #include <time.h>
 #include <errno.h>
+#include <math.h>
+
+#include <stdlib.h>
 
 void uid(void);
 void pid(void);
 void time1(void);
 FILE* fp;
 int main(void)
-{
-    
-    
+{    
     int i=0,j=0;
-    int input[5]={1,2,3,4,5};
-    unsigned long size=5;
-    int sorted_array[5]={0};
-   // int* sorted_array=NULL;
+    int c, n;
+    int input[256]={0};
+    printf("256 random numbers\n");
+    for (c = 1; c <= 256; c++) {
+    n = rand() % 500 + 1;
+    input[c-1]=n;
+    printf("%d\n",input[c]);
+    }
+    int size=256;
+    int sorted_array[256]={0};
     printf("Unsorted array user space:\n");
-    for(i=0;i<5;++i)printf("%d,",input[i]);
+    for(i=0;i<256;++i)printf("%d,",input[i]);
     long int status=syscall(399,input,size,sorted_array);
     printf("Sorted array user space:\n");
-    for(i=0;i<5;++i)printf("%d,",sorted_array[i]);
+    for(i=0;i<256;++i)printf("%d,",sorted_array[i]);
     /*******************************************/
     
     fp = fopen("logging.txt","a+");
     uid();
     pid();
     time1();
-    for(i=0;i<5;++i)fprintf(fp,"%d,",input[i]);
-    for(i=0;i<5;++i)fprintf(fp,"%d,",sorted_array[i]);
-    //fprintf(fp,"abc\n");
-    //fprintf(fp,"def\n");
-    //fclose(fp);
-    //return 0;
+    for(i=0;i<256;++i)fprintf(fp,"%d,",input[i]);
+    for(i=0;i<256;++i)fprintf(fp,"%d,",sorted_array[i]);
 }
 
 void uid(void)
