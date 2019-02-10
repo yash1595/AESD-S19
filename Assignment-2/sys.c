@@ -849,20 +849,25 @@ SYSCALL_DEFINE0(hello)	//DEFINE0=0 parameters
 SYSCALL_DEFINE3(sort,int*,input,int,size,int*,sorted_array)	//DEFINE0=0 parameters
 {
 	printk("In kernel\n");
-	//int* unsorted=NULL;
-	int* unsorted_array = kmalloc(256*sizeof(int),GFP_KERNEL);
+	//int unsorted=NULL;
+	if(size<256){printk("Size less than 256\n");return -1;}
+	if(input==NULL){printk("Input array is NULL\n");return -1;}
+	if(sorted_array==NULL){printk("Sorted array is NULL\n");return -1;}
+
+	int* unsorted_array = kmalloc(size*sizeof(int),GFP_KERNEL);
+	if(unsorted_array==NULL){printk("malloced array is NULL\n");return -1;}
 	printk("malloced\n");
-	int cfu_return = copy_from_user(unsorted_array,sorted_array,size);
+	int cfu_return = copy_from_user(unsorted_array,input,size*sizeof(int));
 	if(cfu_return==0)printk("copy from user done\n");
-	else
-	printk("Value of errno:%d\n",errno);
-	if(size<1)printk("Improper size!\n");	
+	//else
+	//printk("Value of errno:%d\n",errno);
+		
 		
 		
 	int i,j,a;
 	for(i=0;i<size;++i)
 	{
-		for(j=0;j<size;++j)
+		for(j=i+1;j<size;++j)
 			{
 				if(unsorted_array[i]<unsorted_array[j])
 					{ 
@@ -877,9 +882,9 @@ SYSCALL_DEFINE3(sort,int*,input,int,size,int*,sorted_array)	//DEFINE0=0 paramete
 	{	
 		printk("%d\t",unsorted_array[i]);
 	}
-	int ctu_return=copy_to_user(sorted_array,unsorted_array,size);
+	int ctu_return=copy_to_user(sorted_array,unsorted_array,size*sizeof(int));
 	if(ctu_return==0)printk("copy to user done\n");
-	else printk("Value of errno:%d\n",errno);
+	else printk("Value of errno\n");
 	kfree(unsorted_array);	
 	printk("exiting kernel\n");
 	printk("\n");
@@ -2595,3 +2600,4 @@ COMPAT_SYSCALL_DEFINE1(sysinfo, struct compat_sysinfo __user *, info)
 	return 0;
 }
 #endif /* CONFIG_COMPAT */
+
