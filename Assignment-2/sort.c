@@ -77,5 +77,5 @@ void pid()
 	fprintf(fp,"The process id: %d\n",process_id);
 	fprintf(fp,"The process id of parent function: %d\n",p_process_id);
 
-	//return 0;
+	return;
 }
