@@ -842,7 +842,7 @@ SYSCALL_DEFINE0(getpid)	//DEFINE0=0 parameters
 /*************** Hello.c *****************/
 SYSCALL_DEFINE0(hello)	//DEFINE0=0 parameters
 {
-	printk("Hello Raj naam toh suna hoga naaaa!\n");
+	printk("Hello!\n");
 	return 0;
 }
 /*****************************************/
@@ -872,7 +872,7 @@ SYSCALL_DEFINE3(sort,int*,input,int,size,int*,sorted_array)	//DEFINE0=0 paramete
 				if(unsorted_array[i]<unsorted_array[j])
 					{ 
 						a=unsorted_array[i];
-										 						 unsorted_array[i]=unsorted_array[j];
+						unsorted_array[i]=unsorted_array[j];
 						unsorted_array[j]=a;
 					}
 			}
