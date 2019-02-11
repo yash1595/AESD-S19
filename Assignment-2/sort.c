@@ -1,3 +1,10 @@
+/*##############################################################################################
+@References:
+1. https://www.theurbanpenguin.com/using-a-simple-c-program-to-explain-the-suid-permission/
+2. https://www.includehelp.com/c-programs/system-date-time-linux.aspx
+3. https://www.unixmen.com/add-cron-jobs-linux-unix/
+################################################################################################*/
+
 #include <stdio.h>
 #include <linux/kernel.h>
 #include <sys/syscall.h>
