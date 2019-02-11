@@ -40,6 +40,7 @@ int main(void)
     time1();
     for(i=0;i<256;++i)fprintf(fp,"%d,",input[i]);
     for(i=0;i<256;++i)fprintf(fp,"%d,",sorted_array[i]);
+    fclose(fp);
 }
 
 void uid(void)
