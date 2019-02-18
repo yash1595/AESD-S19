@@ -199,13 +199,13 @@ if(filter == 1)
 
 else if(filter == 2)
 {
-	int search_count=3;
+	//int search_count=3;
 	printk("Applying filter for count\n");
 	printk("All nodes with count :%d\n",search_count);
 	//struct Node *TempNode;
 	list_for_each_entry(TempNode, &NodeList_Set1.list, list)
 		{	
-			if(search_count > TempNode->Count)
+			if(search_count < TempNode->Count)
 			{
 				
 				NewNode = kmalloc(sizeof(*NewNode), GFP_KERNEL);
@@ -229,8 +229,8 @@ else if(filter == 2)
 }
 else if(filter > 2)
 {
-	int search_count=2;
-	char* search_name = "Dog";
+	//int search_count=2;
+	//char* search_name = "Dog";
 
 	printk("Applying filter for count and name\n");
 	printk("Nodes with string : %s and Count:%d\n",search_name,search_count);
@@ -259,7 +259,7 @@ else if(filter > 2)
 		printk("Sizecount_s2:%d",size_count_s2);
 		printk("Nodes:%d",number_of_nodes_s2);
 }
-else if(filter<1)
+else
 {
 	printk("List of nodes for Set-2 without any filter\n");
 	list_for_each_entry(TempNode, &NodeList_Set2.list, list)
