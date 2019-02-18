@@ -5,9 +5,9 @@
 
 // Reference : https://gist.github.com/itrobotics/596443150c01ff54658e
 
-int diff;
+int diff = 500;
 struct timer_list TimerMod;
-char *name;
+char *name = "Yashh";
 int count;
 
 module_param(name, charp , S_IRUSR | S_IWUSR);
