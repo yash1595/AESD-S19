@@ -25,9 +25,7 @@ struct Node NodeList_Set1;
 struct Node NodeList_Set2;
 char* search_name="";
 int search_count;
-int filter;
 
-module_param(filter, int , S_IRUSR | S_IWUSR);
 module_param(search_name, charp , S_IRUSR | S_IWUSR);
 module_param(search_count, int , S_IRUSR | S_IWUSR);
 
@@ -42,7 +40,6 @@ char Node_Old[50][50]={	"Zebra", "Dog", "Fish", "Pig", "Bull", "Cat", "Rat","Lio
 char MinimumString[10];
 char Temp[20];
  
- //int filter = 2;
 
  struct Node *TempNode,*NewNode;
  struct Node *NewNode;
@@ -52,7 +49,6 @@ char Temp[20];
 void SizeCount(uint8_t size)													
 {
 	printk("Size occupied by Set2: %d\n",size_count_s2);
-//	struct Node *TempNode;
 	list_for_each_entry(TempNode, &NodeList_Set2.list, list)
 	{	
 		kfree(TempNode);
@@ -152,122 +148,107 @@ static int __init INIT_NodeModule(void)
 		printk("Number of nodes in Set-1:%d",number_of_nodes_s1);
 
 		printk("Size occupied by Set1: %d\n",size_count_s1);
-		// list_for_each_entry(TempNode, &NodeList_Set1.list, list)
-		// {	
-		// 	kfree(TempNode);
-		// }
-		// printk("Size freed by Set1: %d\n",size_count_s1);
 
 /*******************************************************************************
 	@operation: Set-2 assigning nodes
 ********************************************************************************/
-//if(filter == 0) //SearchCount();//print list1.
-if(filter == 1)
-{	
+if(search_count==0 && strcmp(search_name,"")!=0)						//Only name 
+	{	
 	
 	printk("Applying filter for name\n");
 	printk("Nodes with string : %s\n",search_name);
-//	struct Node *TempNode;
 	list_for_each_entry(TempNode,&NodeList_Set1.list,list)
 		{	
 			if(strcmp(TempNode->NodeName,search_name)==0)
 			{
 				
 				NewNode = kmalloc(sizeof(*NewNode), GFP_KERNEL);
-				printk(KERN_INFO "Node name: %s\n==>Node Count:%d", TempNode->NodeName,TempNode->Count);
+				printk(KERN_INFO "Node name: %s\n=>Node Count:%d", TempNode->NodeName,TempNode->Count);
 				size_count_s2 += sizeof(*NewNode);
 				number_of_nodes_s2+=1;
-				/* Copy info */
+
 				strcpy(NewNode->NodeName , TempNode->NodeName);
 				NewNode->Count = TempNode->Count;
 
 				INIT_LIST_HEAD(&NewNode->list);
 
-				/* Add the new node to NodeList_Set2 */
 				list_add_tail(&(NewNode->list), &(NodeList_Set2.list));
-				//printk(KERN_INFO "Node name: %s\n", TempNode->NodeName);
 			}
 		}
 		printk("_______________________________________________________");
 		printk("Sizecount_s2:%d",size_count_s2);
 		printk("Sizecount_s2:%d",number_of_nodes_s2);
-}
-
-	//SearchName("Dog",&NodeList_Set1.list);//print list2 with count
+	}
 
 
+else if (search_count!=0 && strcmp(search_name,"")==0)
+	{
 
-else if(filter == 2)
-{
-	//int search_count=3;
 	printk("Applying filter for count\n");
 	printk("All nodes with count :%d\n",search_count);
-	//struct Node *TempNode;
 	list_for_each_entry(TempNode, &NodeList_Set1.list, list)
 		{	
-			if(search_count < TempNode->Count)
+			if(TempNode->Count >= search_count)
 			{
 				
 				NewNode = kmalloc(sizeof(*NewNode), GFP_KERNEL);
-				printk(KERN_INFO "Animal name: %s\n", TempNode->NodeName);
+				
 				size_count_s2 += sizeof(*NewNode);
 				number_of_nodes_s2+=1;
-				/* Copy info */
+
 				strcpy(NewNode->NodeName , TempNode->NodeName);
 				NewNode->Count = TempNode->Count;
 
 				INIT_LIST_HEAD(&NewNode->list);
 
-				/* Add the new node to NodeList_Set2 */
 				list_add_tail(&(NewNode->list), &(NodeList_Set2.list));
-				//printk(KERN_INFO "Node name: %s\n", TempNode->NodeName);
+				printk("Node name: %s\n", TempNode->NodeName);
 			}
 		}
 		printk("_______________________________________________________");
 		printk("Sizecount_s2:%d",size_count_s2);
 		printk("Nodes:%d",number_of_nodes_s2);
-}
-else if(filter > 2)
-{
-	//int search_count=2;
-	//char* search_name = "Dog";
+	}
+else if(search_count!=0 && strcmp(search_name,"")!=0)//else if(filter > 2)
+	{
+
 
 	printk("Applying filter for count and name\n");
 	printk("Nodes with string : %s and Count:%d\n",search_name,search_count);
-//	struct Node *TempNode;
+
 	list_for_each_entry(TempNode, &NodeList_Set1.list, list)
 		{	
-			if(strcmp(TempNode->NodeName,search_name)==0 && (search_count <= TempNode->Count))
+			if(strcmp(TempNode->NodeName,search_name)==0 && (TempNode->Count >= search_count))
 			{
 				
 				NewNode = kmalloc(sizeof(*NewNode), GFP_KERNEL);
 				
 				size_count_s2 += sizeof(*NewNode);
 				number_of_nodes_s2+=1;
-				/* Copy info */
+
 				strcpy(NewNode->NodeName , TempNode->NodeName);
 				NewNode->Count = TempNode->Count;
 
 				INIT_LIST_HEAD(&NewNode->list);
+				printk("Node name: %s,Node Count:%d\n", TempNode->NodeName,TempNode->Count);
 
-				/* Add the new node to NodeList_Set2 */
-				list_add_tail(&(NewNode->list), &(NodeList_Set2.list));
-				//printk(KERN_INFO "Node name: %s\n", TempNode->NodeName);
+				list_add_tail(&(NewNode->list), &(NodeList_Set2.list));				
 			}
 		}
 		printk("_______________________________________________________");
 		printk("Sizecount_s2:%d",size_count_s2);
 		printk("Nodes:%d",number_of_nodes_s2);
-}
+	}
 else
-{
-	printk("List of nodes for Set-2 without any filter\n");
-	list_for_each_entry(TempNode, &NodeList_Set2.list, list)
+	{
+		printk("List of nodes for Set-2 without any filter\n");
+		list_for_each_entry(TempNode, &NodeList_Set1.list, list)
 		{	
 			printk(KERN_INFO "%s--%d\n", TempNode->NodeName,TempNode->Count);
+			number_of_nodes_s2+=1;
 		}
-		printk("Nodes:%d",number_of_nodes_s1);
-}
+		printk("Nodes:%d",number_of_nodes_s2);
+	}
 	
 /*******************************************************************************
 	@operation: Output for Set-2
@@ -277,25 +258,20 @@ else
 	getnstimeofday (&end);
 	struct timespec diff;	
 	diff = timespec_sub(end, begin); 
-	printk(KERN_ALERT "Time elapsed: %luns\n", diff.tv_nsec );
-//	SizeCount(1);
+	printk(KERN_ALERT "Time for insertion of module: %lu ns\n", diff.tv_nsec );
 
-	struct Node *TempNode2;
-	
-
-	printk(KERN_INFO "Freeing the %d bytes allocated for Set2", size_count_s2);
-	list_for_each_entry(TempNode2, &NodeList_Set2.list, list)
-	{	
-		kfree(TempNode2);
-	}
 	printk(KERN_INFO "Freeing the %d bytes allocated for Set1", size_count_s1);
-	list_for_each_entry(TempNode2, &NodeList_Set1.list, list)
+	list_for_each_entry(TempNode, &NodeList_Set1.list, list)
 	{	
-		kfree(TempNode2);
+		kfree(TempNode);
+	}
+	printk(KERN_INFO "Freeing the %d bytes allocated for Set2", size_count_s2);
+	list_for_each_entry(TempNode, &NodeList_Set2.list, list)
+	{	
+		kfree(TempNode);
 	}
 
 	return 0; 
-
 }
 
 static void __exit EXIT_NodeModule(void)
@@ -307,11 +283,11 @@ static void __exit EXIT_NodeModule(void)
 
 	getnstimeofday (&begin);
 
-	printk(KERN_ALERT "Uninstalling..\n");
+	printk(KERN_ALERT "Removing Module\n");
 	getnstimeofday (&end);
 	struct timespec diff;
 	diff = timespec_sub(end, begin); 
-	printk(KERN_ALERT "Time elapsed: %luns\n", diff.tv_nsec );
+	printk(KERN_ALERT "Time for removal of module: %lu ns\n", diff.tv_nsec );
 
 }
 
