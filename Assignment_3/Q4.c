@@ -1,10 +1,16 @@
-#include <linux/module.h>	/* Needed by all modules */
-#include <linux/kernel.h>	/* Needed for KERN_INFO */
-#include <linux/init.h>		/* Needed for the macros */
+#include <linux/module.h>	
+#include <linux/kernel.h>	
+#include <linux/init.h>		
 #include <linux/list.h>
 #include<linux/slab.h>
 #include <linux/timer.h>
 #define SIZE 	50																//Defines the Maximum array size.
+
+/******************************************************************************
+	@operation:	Data Structure used is Linked List
+	@References:	1.http://linuxandc.com/selection-sort/
+			2.http://www.roman10.net/2011/07/28/linux-kernel-programminglinked-list/
+*******************************************************************************/
 
 struct Node 																	//Structure for Linked List node.
 {
