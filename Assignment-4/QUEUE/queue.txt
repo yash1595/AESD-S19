@@ -1,0 +1,132 @@
+
+Using Semaphores as resources implementation via POSIX queue
+
+FIRST STRING : 
+Second str
+
+
+STRING LENGTH : 12
+
+LED STATE : 1
+
+SECOND STRING : 
+Third str
+
+
+THIRD STRING : 
+Fourth str
+
+
+FOURTH STRING : 
+Fifth str
+
+
+FIFTH STRING : 
+Sixth str
+
+
+PID-1 : 22160
+
+PID-2 : 22160
+
+PID-3: 22160
+
+TIMESTAMP PARENT TO CHILD: 249971521 
+
+Using Semaphores as resources implementation via POSIX QUEUES
+
+FIRST str : 
+Second str
+
+
+str LENGTH : 12
+
+LED STATE : 1
+
+SECOND str : 
+Third str
+
+
+THIRD str : 
+Fourth str
+
+
+FOURTH str : 
+Fifth str
+
+
+FIFTH str : 
+Sixth str
+
+
+PID-1 : 22160
+
+PID-2 : 22160
+
+PID-3: 22160
+
+TIMESTAMP PARENT TO CHILD: 250082243 
+
+FIRST STRING : 
+One
+
+
+STRING LENGTH : 5
+
+LED STATE : 1
+
+SECOND STRING : 
+Two
+
+
+THIRD STRING : 
+Three
+
+
+FOURTH STRING : 
+Four
+
+
+FIFTH STRING : 
+Five
+
+
+PID-1 : 22157
+
+PID-2 : 22157
+
+PID-3: 22157
+
+TIMESTAMP CHILD TO PARENT: 250103018 
+
+FIRST STRING : 
+One
+
+
+STRING LENGTH : 5
+
+LED STATE : 1
+
+SECOND STRING : 
+Two
+
+
+THIRD STRING : 
+Three
+
+
+FOURTH STRING : 
+Four
+
+
+FIFTH STRING : 
+Five
+
+
+PID-1 : 22157
+
+PID-2 : 22157
+
+PID-3: 22157
+
+TIMESTAMP CHILD TO PARENT: 251592247 
