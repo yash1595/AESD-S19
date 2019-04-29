@@ -38,7 +38,7 @@ void temp_task(void *pvParameters)
 
           Temperature_Final_Value(&Celsius);
        // UARTprintf("Value%f",Celsius);
-        if(Celsius<40)
+        if(Celsius<40 && Celsius>0)
         {
 //            count = xTaskGetTickCount();
 //                     count = count - 1;

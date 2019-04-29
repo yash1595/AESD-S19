@@ -52,14 +52,18 @@ void my_uartHandler(void)
             else if(c=='d')
             {
                 UARTprintf("*******************ALER************************3\n");
-               // flag1 = 1;
+                servo();
+                // flag1 = 1;
                // function_check();
             // servo_init();
             // servo_pwm_config();
             }
             else if(c=='o')
             {
-                servo();
+                servo_alarm();
+                SysCtlDelay(1000000);
+                servo_alarm_off();
+                SysCtlDelay(1000000);
 
               UARTprintf("*******************ALER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!4\n");
               //RelayInit(PORTL,PIN3);
@@ -94,6 +98,7 @@ void my_uartHandler(void)
             }
             else if(c=='x')
             {
+                UARTprintf("**********Sensor Broken************\n");
                 RelayInit(PORTL,PIN3);
                 RelayState(PORTL,PIN3,1);
                 SysCtlDelay(1000000);
@@ -101,6 +106,30 @@ void my_uartHandler(void)
                 RelayState(PORTL, PIN3,0);
 
             }
+            else if(c=='y')
+           {
+               UARTprintf("**********Communcation Broken TX of TIVA************\n");
+               RelayInit(PORTL,PIN3);
+               RelayState(PORTL,PIN3,1);
+               SysCtlDelay(1000000);
+               RelayInit(PORTL,PIN3);
+               RelayState(PORTL, PIN3,0);
+              // RelayInit(PORTF, PIN2);
+              // RelayState(PORTF, PIN2, 1);
+
+           }
+
+            else if(c=='z')
+             {
+                 UARTprintf("**********Alert from Sensor************\n");
+                 RelayInit(PORTF,PIN2);
+                 RelayState(PORTF,PIN2,1);
+                 SysCtlDelay(1000000);
+                 RelayInit(PORTF,PIN2);
+                 RelayState(PORTF, PIN2,0);
+
+
+             }
 
 
 
@@ -175,6 +204,9 @@ int main(void)
         // Initialize the GPIO pins for the Launchpad
         PinoutSet(0,0);
         UARTStdioConfig(0, 115200, output_clock_rate_hz);
+
+      //  while(1);
+
         timer_init();
         i2c_init(); //I2C initialisation by portb and temp i2c by address0x48
         startup();

@@ -129,6 +129,7 @@ void servo_pwm_config(void);
 void UART_Communication2(char *convert_structure2, int length);
 void fingerprint_task(void *pvParameters);
 void servo(void);
+void servo_alarm(void);
 void startup_test_temperature();
 void startup_test_ultrasonic();
 void startup_test_fingerprint();
@@ -144,6 +145,9 @@ void SetUpADC(void);
 uint32_t ADCConvert(void);
 uint8_t SmokeStartUpTest(void);
 void smoke_task(void *pvParameters);
+void servo_alarm_off(void);
+void servo_alarm(void);
+
 
 
 // Variables
@@ -184,6 +188,7 @@ uint32_t count_global;
 
 uint32_t pui32ADC0Value[1];
        uint8_t smoke_test_flag;
+       uint8_t ultrasonic_test_flag;
        typedef struct {
            char my_name[250];
        }smoke_struct;

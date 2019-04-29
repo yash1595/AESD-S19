@@ -165,3 +165,33 @@ void servo()
 
 
 }
+
+void servo_alarm(void)
+{
+
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);
+        //
+        SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
+        GPIOPinConfigure(GPIO_PF1_M0PWM1);
+        GPIOPinTypePWM(GPIO_PORTF_BASE, GPIO_PIN_1);
+        PWMGenConfigure(PWM0_BASE, PWM_GEN_0, PWM_GEN_MODE_UP_DOWN |
+                        PWM_GEN_MODE_NO_SYNC);
+
+        PWMGenPeriodSet(PWM0_BASE, PWM_GEN_0, 64000);
+        PWMPulseWidthSet(PWM0_BASE, PWM_OUT_1,
+                         PWMGenPeriodGet(PWM0_BASE, PWM_GEN_0) / 4);
+        PWMOutputState(PWM0_BASE, PWM_OUT_1_BIT, true);
+        PWMGenEnable(PWM0_BASE, PWM_GEN_0);
+
+
+}
+
+
+void servo_alarm_off(void)
+{
+
+
+    PWMGenDisable(PWM0_BASE, PWM_GEN_0);
+
+
+}

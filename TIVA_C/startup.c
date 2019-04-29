@@ -42,12 +42,12 @@ void startup()
     smoke_test_flag=0;
     startup_test_temperature();
     smoke_test_flag = SmokeStartUpTest();
-    flag_startup = CheckTest();
+    ultrasonic_test_flag = CheckTest();
     UARTprintf("Startup\n");
 
     char l='L';
     char m='M';
-    if(flag_startup == 1 || smoke_test_flag==1)
+    if(flag_startup == 1 || smoke_test_flag==1 || ultrasonic_test_flag == 1)
     {
         UARTprintf("\n****Exiting the system, Startup Failed****\n");
         UARTCharPut(UART3_BASE,l);

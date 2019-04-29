@@ -142,6 +142,7 @@ void smoke_task(void *pvParameters)
 
     while(1)
         {
+
         smoke_val=ADCConvert();
             if(smoke_val>900)
             {
@@ -152,6 +153,12 @@ void smoke_task(void *pvParameters)
                 strcat(str,"S");
                 strcpy(smoke_info.my_name,str);
                 bzero(str,sizeof(str));
+//                if(smoke_val > 2200)
+//                {
+//
+//                    servo_alarm();
+//
+//                }
 //                IntMasterEnable();
 //                IntEnable(INT_UART3);
 //                UARTIntEnable(UART3_BASE, UART_INT_RX | UART_INT_RT);
@@ -159,6 +166,8 @@ void smoke_task(void *pvParameters)
                 {
                     UARTprintf("\nLog Error");
                 }
+
+
 
 
             }
