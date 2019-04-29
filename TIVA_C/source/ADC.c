@@ -153,16 +153,17 @@ void smoke_task(void *pvParameters)
                 strcat(str,"S");
                 strcpy(smoke_info.my_name,str);
                 bzero(str,sizeof(str));
-                if(smoke_val > 3000)
+                if(smoke_val > 2800)
                 {
-                    servo();
-                    while(count<20)
-                    {
-                        count++;
-                    }
-                    //servo_alarm();
+                    servo_alarm();
+                    SysCtlDelay(1000000);
+                    servo_alarm_off();
 
                 }
+//                else
+//                {
+//
+//                }
 //                IntMasterEnable();
 //                IntEnable(INT_UART3);
 //                UARTIntEnable(UART3_BASE, UART_INT_RX | UART_INT_RT);
@@ -180,7 +181,7 @@ void smoke_task(void *pvParameters)
                 UARTprintf("Smoke sensor Failed\n");
                 UARTCharPut(UART3_BASE,f);
             }
-            vTaskDelay(987);
+            vTaskDelay(437);
         }
 
 }

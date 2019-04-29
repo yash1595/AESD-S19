@@ -463,11 +463,11 @@ void fingerprint_task(void *pvParameters)
 
     while(1)
     {
-      char str1[150] = {'F'};
+      char str1[150] = {'P'};
       CheckFingerPrint();
       snprintf(Text_Print, sizeof(Text_Print), "%d",(int)check_id);
       strcat(str1,Text_Print);
-      strcat(str1,"F");
+      strcat(str1,"P");
       strcpy(finger_info.finger_name,str1);
       bzero(str1,sizeof(str1));
       UARTprintf("Finger Info : %s",finger_info.finger_name);
@@ -476,5 +476,5 @@ void fingerprint_task(void *pvParameters)
            UARTprintf("\nLog Error");
        }
     }
-    vTaskDelay(1770);
+    vTaskDelay(200);
 }

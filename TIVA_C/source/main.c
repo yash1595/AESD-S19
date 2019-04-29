@@ -64,9 +64,7 @@ void my_uartHandler(void)
             else if(c=='h')
             {
                 UARTprintf("******************ALERT[SMOKE]****************************\n");
-                servo_alarm();
-                SysCtlDelay(1000000);
-                servo_alarm_off();
+                servo();
             }
             else if(c=='t')
             {
@@ -95,13 +93,25 @@ void my_uartHandler(void)
             else if(c=='z')
              {
                  UARTprintf("***************[Alert from Sensor]*************************\n");
-                 RelayInit(PORTF,PIN2);
-                 RelayState(PORTF,PIN2,1);
+                 RelayInit(PORTH,PIN2);
+                 RelayState(PORTH,PIN2,1);
                  SysCtlDelay(1000000);
-                 RelayInit(PORTF,PIN2);
-                 RelayState(PORTF, PIN2,0);
+                 RelayInit(PORTH,PIN2);
+                 RelayState(PORTH, PIN2,0);
              }
 
+            else if(c=='r')
+             {
+                 UARTprintf("***************[Alert from Fingerprint]*************************\n");
+                 servo_finger();
+
+             }
+            else if(c=='s')
+             {
+                 UARTprintf("***************[NoAlert Fingerprint]*************************\n");
+                 servo();
+
+             }
 
 
 }
@@ -118,6 +128,7 @@ void Timer0IntHandler(void)
         UARTprintf("\nCommunication broken!!!\n");
 
      UARTCharPut(UART3_BASE, 'X');
+     UARTCharPut(UART0_BASE, 'X');
      }    //IntDisable(INT_TIMER0A);
     IntMasterEnable();
 
@@ -139,7 +150,7 @@ void timer_init(){
 // Main function
 //Black - PA4 , Red - PA5
 int main(void)
-{
+    {
     flag_startup = 0;
     // Initialize system clock to 120 MHz
 
@@ -188,11 +199,11 @@ int main(void)
 
             //servo();
          UARTprintf("Startup Success\n");
-         xTaskCreate(logger, (const portCHAR *)"Logs",500, NULL, 1, NULL); //logger task initiated
-         xTaskCreate(temp_task, (const portCHAR *)"Temp",500, NULL, 1, NULL); //temp task initiated
-         xTaskCreate(ultrasonic_task, (const portCHAR *)"Ultra",500, NULL, 1, NULL); //temp task initiated
-         xTaskCreate(smoke_task, (const portCHAR *)"smoke",500, NULL, 1, NULL); //temp task initiated
-       //  xTaskCreate(fingerprint_task, (const portCHAR *)"Finger",500, NULL, 1, NULL); //temp task initiated
+         xTaskCreate(logger, (const portCHAR *)"Logs",1200, NULL, 1, NULL); //logger task initiated
+         xTaskCreate(temp_task, (const portCHAR *)"Temp",1200, NULL, 1, NULL); //temp task initiated
+         xTaskCreate(ultrasonic_task, (const portCHAR *)"Ultra",1200, NULL, 1, NULL); //temp task initiated
+         xTaskCreate(smoke_task, (const portCHAR *)"smoke",1200, NULL, 1, NULL); //temp task initiated
+         xTaskCreate(fingerprint_task, (const portCHAR *)"Finger",1200, NULL, 1, NULL); //temp task initiated
 //       // servo();
         vTaskStartScheduler();
         }

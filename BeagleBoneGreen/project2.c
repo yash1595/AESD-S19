@@ -19,7 +19,7 @@ char * uart_driver = "/dev/ttyO2";
 struct termios *my_term;
 void termios_setup(struct termios * my_term, int descriptor);
 char arr[20],temp[10],temp1[20];
-int flag = 0,fd,flag1=0,flag2=0;
+int flag = 0,fd,flag1=0,flag2=0,flag4=0;
 char send1[5] = {'a'}; //temp
 char send2[5] = {'n'};//temp
 char send3[3] = {'d'};//distance
@@ -29,9 +29,12 @@ char send6[3] = {'t'};//smoke
 char send7[3] = {'x'};//sensor fail
 char send8[3] = {'y'}; //communication of TIVA TXx fail
 char send9[3] = {'z'}; //Alert from any sensor
+char send10[3] = {'r'}; //Fingerprint
+char send11[3] = {'s'}; //Fingerprint
+
 struct itimerspec timer_setting;
 struct sigevent signal_specification;
-timer_t heartbeat_timer_id;
+timer_t continuous_check_id;
 
 uint8_t READ_NOT_REC = 1;
 
@@ -43,7 +46,7 @@ void timer_check(int temp_sig)
       ft4 = fopen("log_send.txt","a");
       fprintf(ft4,"[%lf]******Broken BBG RX/TIVA TX*******\n",GetTime());
       fclose(ft4);
-      write(fd,&send7, sizeof(send7));
+      write(fd,&send8, sizeof(send8));
       alloff();
       func2();
 
@@ -62,13 +65,13 @@ void TimerInit(void)
 {
     signal_specification.sigev_notify = SIGEV_THREAD;
     signal_specification.sigev_notify_function = &timer_check;
-    signal_specification.sigev_value.sival_ptr = "Heartbeat timer";
-    timer_create(CLOCK_REALTIME,&signal_specification,&heartbeat_timer_id);
+    signal_specification.sigev_value.sival_ptr = "timer";
+    timer_create(CLOCK_REALTIME,&signal_specification,&continuous_check_id);
     timer_setting.it_value.tv_sec =1;
     timer_setting.it_value.tv_nsec = 0;
     timer_setting.it_interval.tv_sec =6 ;
     timer_setting.it_interval.tv_nsec = 0;
-    timer_settime(heartbeat_timer_id,0,&timer_setting,NULL);
+    timer_settime(continuous_check_id,0,&timer_setting,NULL);
 }
 
 
@@ -118,6 +121,7 @@ void termios_setup(struct termios * my_term, int descriptor)
     fprintf(ft5,"ID =1, Temperature Sensor*******\n");
     fprintf(ft5,"ID =2, Ultrasonic Sensor*******\n");
     fprintf(ft5,"ID =3, Smoke Sensor*******\n");
+    fprintf(ft5,"ID =4, Fingerprint Sensor*******\n");
     fprintf(ft5,"******Seven Segment ID = 1 Alert from Sensor*******\n");
     fprintf(ft5,"******Seven Segment ID = 2 Alert from Communication*******\n");
     fprintf(ft5,"******Seven Segment ID = 3 Alert from Sensor CutOff*******\n");
@@ -129,7 +133,7 @@ void termios_setup(struct termios * my_term, int descriptor)
       //printf("Here\n");
         read(fd,&arr,sizeof(arr));
         READ_NOT_REC = 0;
-        if(arr[0]=='T' || arr[0]=='D' || arr[0]=='S')
+        if(arr[0]=='T' || arr[0]=='D' || arr[0]=='S' || arr[0]=='P')
         {
             if((arr[0])=='T')
             {
@@ -147,6 +151,11 @@ void termios_setup(struct termios * my_term, int descriptor)
              printf("S is checked\n");
              read_smoke();
             }
+            else if(arr[0]=='P')
+            {
+             printf("P is checked\n");
+             read_finger();
+            }
         }
         else if(arr[0]=='X')
         {
@@ -154,9 +163,9 @@ void termios_setup(struct termios * my_term, int descriptor)
           fprintf(ft5,"[%lf]******Broken BBG TX/TIVA RX*******\n",GetTime());
           fclose(ft5);
           alloff();
-          func2();
-          sleep(1);
-          alloff();
+          func8();
+        //  sleep(1);
+          //alloff();
         }
         else if(arr[0]=='L')
         {
@@ -207,6 +216,52 @@ void termios_setup(struct termios * my_term, int descriptor)
 
 }
 
+void read_finger(void)
+{
+  data_to_sent.ID = 4;
+  uint8_t p_data[5];
+  int i = 1;
+  while(arr[i]!='P')
+  {
+    p_data[i-1]=(arr[i]);
+    printf("p_data :%c",p_data[i-1]);
+    i+=1;
+    printf("Value of i: %d",i);
+  }
+
+  uint8_t finger_val = atoi(p_data);
+  printf("Final Finger value %d\n",finger_val);
+  data_to_sent.data = finger_val;
+  printf("Before opening a file\n");
+  ft2 = fopen("log_send.txt","a");
+   fprintf(ft2,"\n[%lf][Send]Common_ID : %d\n",GetTime(),my_ptr1->ID);
+   fprintf(ft2,"\n[%lf][Send]Data is : %d\n",GetTime(),my_ptr1->data);
+   fclose(ft2);
+   printf("Data written\n");
+  if(finger_val != 20 )
+  {
+    ft2 = fopen("log_send.txt","a");
+    fprintf(ft2,"[%lf]Alert from Finger*****\n",GetTime());
+    fclose(ft2);
+    write(fd,&send9, sizeof(send9));
+    alloff();
+    func1();
+    flag4 = 1;
+  }
+  if(flag4 == 1)
+  {
+   write(fd,&send10, sizeof(send10));
+   printf("%s\n",send10);
+   flag4 =0;
+  }
+  else
+  {
+   write(fd,&send11, sizeof(send11));
+   printf("%s\n",send11);
+
+  }
+
+}
 void read_temp(void)
 {
   //uint8_t temp_value_final[5];
@@ -276,7 +331,7 @@ void read_smoke(void)
    fprintf(ft12,"\n[%lf][Send]Data is : %d\n",GetTime(),my_ptr1->data);
    fclose(ft12);
    printf("Data written\n");
-  if(smoke_val <10 || smoke_val > 30)
+  if(smoke_val <10 || smoke_val > 27)
   {
     ft2 = fopen("log_send.txt","a");
     fprintf(ft2,"[%lf]Alert from Smoke*****\n",GetTime());

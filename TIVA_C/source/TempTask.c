@@ -74,7 +74,7 @@ void temp_task(void *pvParameters)
             UARTprintf("Temperature Failed\n");
             UARTCharPut(UART3_BASE,h);
         }
-                vTaskDelay(1000);
+                vTaskDelay(537);
         }
 
 }

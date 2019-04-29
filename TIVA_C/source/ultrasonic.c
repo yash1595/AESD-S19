@@ -70,7 +70,7 @@ void ultrasonic_task(void *pvParameters)
            UARTCharPut(UART3_BASE,u);
        }
     }
-      vTaskDelay(547);
+      vTaskDelay(289);
 
   }
 }

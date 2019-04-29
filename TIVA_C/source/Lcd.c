@@ -105,7 +105,7 @@ void temp_func()
     {
         GPIO_PORTN_DATA_R ^= 0x01;
         LCD_OutString("Alert Temp");
-        SysCtlDelay(1500000);
+        SysCtlDelay(15000000);
         LCD_Clear();
 
 
@@ -120,7 +120,7 @@ void no_alert()
     LCD_Clear();
     GPIO_PORTN_DATA_R ^= 0x01;
     LCD_OutString("No Alert Temp");
-    SysCtlDelay(1500000);
+    SysCtlDelay(15000000);
     LCD_Clear();
 
 }

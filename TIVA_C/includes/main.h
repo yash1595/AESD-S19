@@ -198,3 +198,5 @@ uint32_t pui32ADC0Value[1];
 #define u (char)'U' //ultrasonic fail
 #define f (char)'F' //smoke
 #define h (char)'H' //temp
+
+void servo_finger();

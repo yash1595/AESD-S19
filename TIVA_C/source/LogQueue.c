@@ -102,11 +102,13 @@ void function_check()
 {
     if(flag == 1)
     {
+
      temp_func();
      flag = 0;
     }
     else if(flag1 == 1)
     {
+      UARTprintf("Alert from Distance\n");
       RelayInit(PORTF,PIN2);
       RelayState(PORTF,PIN2,1);
       SysCtlDelay(1000000);
@@ -149,9 +151,39 @@ void servo()
          // SysCtlDelay(1000000);
           PWMOutputInvert(PWM0_BASE, PWM_OUT_5_BIT, true);
        //   SysCtlDelay((output_clock_rate_hz * 5) / 3);
-          SysCtlDelay(1000000);
+       //   SysCtlDelay(1000000);
 
+         // PWMOutputInvert(PWM0_BASE, PWM_OUT_5_BIT, false);
+          SysCtlDelay(1000000);
+              // UARTprintf("Normal 2\n");
+         // SysCtlDelay((output_clock_rate_hz * 5) / 3);
+        }
+
+
+}
+
+
+void servo_finger()
+{
+       SysCtlPWMClockSet(SYSCTL_PWMDIV_1);
+       SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);
+       SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOG);
+       GPIOPinTypePWM(GPIO_PORTG_BASE, GPIO_PIN_1);
+       GPIOPinConfigure(GPIO_PG1_M0PWM5);
+        PWMGenConfigure(PWM0_BASE, PWM_GEN_2, PWM_GEN_MODE_UP_DOWN |PWM_GEN_MODE_NO_SYNC);
+        PWMGenPeriodSet(PWM0_BASE, PWM_GEN_2, 100000);
+        PWMPulseWidthSet(PWM0_BASE, PWM_OUT_5,PWMGenPeriodGet(PWM0_BASE, PWM_GEN_2) /6);
+        PWMOutputState(PWM0_BASE, PWM_OUT_5_BIT, true);
+        PWMGenEnable(PWM0_BASE, PWM_GEN_2);
+      //  while(1)
+        {
+         // UARTprintf("Normal\n");
+         // SysCtlDelay(1000000);
           PWMOutputInvert(PWM0_BASE, PWM_OUT_5_BIT, false);
+       //   SysCtlDelay((output_clock_rate_hz * 5) / 3);
+       //   SysCtlDelay(1000000);
+
+         // PWMOutputInvert(PWM0_BASE, PWM_OUT_5_BIT, false);
           SysCtlDelay(1000000);
               // UARTprintf("Normal 2\n");
          // SysCtlDelay((output_clock_rate_hz * 5) / 3);
@@ -163,7 +195,7 @@ void servo()
 void servo_alarm(void)
 {
 
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);
+        SysCtlPeripheralEnable(SYSCTL_PERIPH_PWM0);
         //
         SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOB);
         GPIOPinConfigure(GPIO_PF1_M0PWM1);
@@ -185,7 +217,8 @@ void servo_alarm_off(void)
 {
 
 
-    PWMGenDisable(PWM0_BASE, PWM_GEN_0);
+//    PWMGenDisable(PWM0_BASE, PWM_GEN_0);
+    PWMOutputState(PWM0_BASE, PWM_OUT_1_BIT, false);
 
 
 }

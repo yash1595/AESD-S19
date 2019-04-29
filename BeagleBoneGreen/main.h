@@ -77,6 +77,8 @@ void func8();
 void func9();
 void gpio_on_off(uint8_t pin,uint8_t state);
 void alloff();
+void read_finger(void);
+
 
 typedef enum{gpio66=0,gpio67=1,gpio68=2,gpio69=3,gpio44=4,gpio117=5,gpio49=6,gpio27=7}PINS;
 
