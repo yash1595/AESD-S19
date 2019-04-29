@@ -153,12 +153,16 @@ void smoke_task(void *pvParameters)
                 strcat(str,"S");
                 strcpy(smoke_info.my_name,str);
                 bzero(str,sizeof(str));
-//                if(smoke_val > 2200)
-//                {
-//
-//                    servo_alarm();
-//
-//                }
+                if(smoke_val > 3000)
+                {
+                    servo();
+                    while(count<20)
+                    {
+                        count++;
+                    }
+                    //servo_alarm();
+
+                }
 //                IntMasterEnable();
 //                IntEnable(INT_UART3);
 //                UARTIntEnable(UART3_BASE, UART_INT_RX | UART_INT_RT);

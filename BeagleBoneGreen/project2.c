@@ -22,11 +22,13 @@ char arr[20],temp[10],temp1[20];
 int flag = 0,fd,flag1=0,flag2=0;
 char send1[5] = {'a'}; //temp
 char send2[5] = {'n'};//temp
-char send3[4] = {'d'};//distance
-char send4[4] = {'o'};//distance
-char send5[4] = {'h'};//smoke
-char send6[4] = {'t'};//smoke
-char send7[4] = {'x'};//smoke
+char send3[3] = {'d'};//distance
+char send4[3] = {'o'};//distance
+char send5[3] = {'h'};//smoke
+char send6[3] = {'t'};//smoke
+char send7[3] = {'x'};//sensor fail
+char send8[3] = {'y'}; //communication of TIVA TXx fail
+char send9[3] = {'z'}; //Alert from any sensor
 struct itimerspec timer_setting;
 struct sigevent signal_specification;
 timer_t heartbeat_timer_id;
@@ -39,14 +41,18 @@ void timer_check(int temp_sig)
     {
       printf("broken\n");
       ft4 = fopen("log_send.txt","a");
-      fprintf(ft4,"******Broken BBG RX/TIVA TX*******\n");
+      fprintf(ft4,"[%lf]******Broken BBG RX/TIVA TX*******\n",GetTime());
       fclose(ft4);
+      write(fd,&send7, sizeof(send7));
+      alloff();
+      func2();
+
     }
     else
     {
       printf("alive\n");
       ft4 = fopen("log_send.txt","a");
-      fprintf(ft4,"******Alive Communication*******\n");
+      fprintf(ft4,"[%lf]******Alive Communication*******\n",GetTime());
       fclose(ft4);
     }
     READ_NOT_REC=1;
@@ -112,6 +118,10 @@ void termios_setup(struct termios * my_term, int descriptor)
     fprintf(ft5,"ID =1, Temperature Sensor*******\n");
     fprintf(ft5,"ID =2, Ultrasonic Sensor*******\n");
     fprintf(ft5,"ID =3, Smoke Sensor*******\n");
+    fprintf(ft5,"******Seven Segment ID = 1 Alert from Sensor*******\n");
+    fprintf(ft5,"******Seven Segment ID = 2 Alert from Communication*******\n");
+    fprintf(ft5,"******Seven Segment ID = 3 Alert from Sensor CutOff*******\n");
+    fprintf(ft5,"******Seven Segment ID = 4 Alert from Startup fail*******\n");
     fclose(ft5);
 
     while(1)
@@ -141,43 +151,55 @@ void termios_setup(struct termios * my_term, int descriptor)
         else if(arr[0]=='X')
         {
           ft5 = fopen("log_send.txt","a");
-          fprintf(ft5,"******Broken BBG TX/TIVA RX*******\n");
+          fprintf(ft5,"[%lf]******Broken BBG TX/TIVA RX*******\n",GetTime());
           fclose(ft5);
+          alloff();
+          func2();
+          sleep(1);
+          alloff();
         }
         else if(arr[0]=='L')
         {
           ft6 = fopen("log_send.txt","a");
-          fprintf(ft6,"\n*****Startup Failed, System Exit*****\n");
+          fprintf(ft6,"\n[%lf]*****Startup Failed, System Exit*****\n",GetTime());
           fclose(ft6);
+          alloff();
+          func4();
         }
         else if(arr[0]=='M')
         {
           ft8 = fopen("log_send.txt","a");
-          fprintf(ft8,"\n*****Startup Success*****\n");
+          fprintf(ft8,"\n[%lf]*****Startup Success*****\n",GetTime());
           fclose(ft8);
         }
         else if(arr[0]=='H')
         {
           ft9 = fopen("log_send.txt","a");
-          fprintf(ft9,"\n*****Temperature Fail******\n");
+          fprintf(ft9,"\n[%lf]*****Temperature Fail******\n",GetTime());
           fclose(ft9);
           write(fd,&send7, sizeof(send7));
+          alloff();
+          func3();
 
         }
         else if(arr[0]=='U')
         {
           ft10 = fopen("log_send.txt","a");
-          fprintf(ft10,"\n******Ultrasonic Fail*****\n");
+          fprintf(ft10,"\n[%lf]******Ultrasonic Fail*****\n",GetTime());
           fclose(ft10);
           write(fd,&send7, sizeof(send7));
+          alloff();
+          func3();
 
         }
         else if(arr[0]=='F')
         {
           ft10 = fopen("log_send.txt","a");
-          fprintf(ft10,"\n******Smoke Fail*****\n");
+          fprintf(ft10,"\n[%lf]******Smoke Fail*****\n",GetTime());
           fclose(ft10);
           write(fd,&send7, sizeof(send7));
+          alloff();
+          func3();
 
         }
 
@@ -203,15 +225,18 @@ void read_temp(void)
   data_to_sent.data = temp_val;
   printf("Before opening a file\n");
   ft2 = fopen("log_send.txt","a");
-   fprintf(ft2,"\n[Send]Common_ID : %d\n",my_ptr1->ID);
-   fprintf(ft2,"\n[Send]Data is : %d\n",my_ptr1->data);
+   fprintf(ft2,"\n[%lf][Send]Common_ID : %d\n",GetTime(),my_ptr1->ID);
+   fprintf(ft2,"\n[%lf][Send]Data is : %d\n",GetTime(),my_ptr1->data);
    fclose(ft2);
    printf("Data written\n");
   if(temp_val > 26)
   {
     ft2 = fopen("log_send.txt","a");
-    fprintf(ft2,"Alert from Temperature*****\n");
+    fprintf(ft2,"[%lf]Alert from Temperature*****\n",GetTime());
     fclose(ft2);
+    write(fd,&send9, sizeof(send9));
+    alloff();
+    func1();
     flag = 1;
   }
   if(flag == 1)
@@ -247,13 +272,18 @@ void read_smoke(void)
   printf("Final Smoke value %d\n",smoke_val);
   data_to_sent.data = smoke_val;
   ft12 = fopen("log_send.txt","a");
-   fprintf(ft12,"\n[Send]Common_ID : %d\n",my_ptr1->ID);
-   fprintf(ft12,"\n[Send]Data is : %d\n",my_ptr1->data);
+   fprintf(ft12,"\n[%lf][Send]Common_ID : %d\n",GetTime(),my_ptr1->ID);
+   fprintf(ft12,"\n[%lf][Send]Data is : %d\n",GetTime(),my_ptr1->data);
    fclose(ft12);
    printf("Data written\n");
-  if(smoke_val <10 || smoke_val > 23)
+  if(smoke_val <10 || smoke_val > 30)
   {
-    printf("Alert is set\n");
+    ft2 = fopen("log_send.txt","a");
+    fprintf(ft2,"[%lf]Alert from Smoke*****\n",GetTime());
+    fclose(ft2);
+    write(fd,&send9, sizeof(send9));
+    alloff();
+    func1();
     flag2= 1;
   }
   if(flag2 == 1)
@@ -289,12 +319,17 @@ void read_distance(void)
   printf("Final Distance value %d\n",distance_val);
   data_to_sent.data = distance_val;
   ft3 = fopen("log_send.txt","a");
-   fprintf(ft3,"\n[Send]Common_ID : %d\n",my_ptr1->ID);
-   fprintf(ft3,"\n[Send]Data is : %d\n",my_ptr1->data);
+   fprintf(ft3,"\n[%lf][Send]Common_ID : %d\n",GetTime(),my_ptr1->ID);
+   fprintf(ft3,"\n[%lf][Send]Data is : %d\n",GetTime(),my_ptr1->data);
    fclose(ft3);
    if(distance_val < 5 || distance_val > 100  )
   {
-    printf("Alert is set\n");
+    ft2 = fopen("log_send.txt","a");
+    fprintf(ft2,"[%lf]Alert from Distance*****\n",GetTime());
+    fclose(ft2);
+    write(fd,&send9, sizeof(send9));
+    alloff();
+    func1();
     flag1 = 1;
   }
   if(flag1 == 1)
@@ -311,11 +346,184 @@ void read_distance(void)
   }
 }
 
+
+double GetTime()
+{
+	struct timeval time;
+
+	gettimeofday(&time, 0);
+
+	return (double)(time.tv_sec)+(((double)(time.tv_usec))/1000000);
+}
+
+
+
+//#include "main.h"
+
+void func0()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	//gpio_on_off(gpio67,1);
+	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+	gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func1()
+{
+	gpio_on_off(gpio49,1);
+	// gpio_on_off(gpio66,1);
+	// gpio_on_off(gpio67,1);
+	// gpio_on_off(gpio68,1);
+	// gpio_on_off(gpio69,1);
+	// gpio_on_off(gpio44,1);
+	// gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func2()
+{
+	//gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+	//gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+	gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func3()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+//	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+//	gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func4()
+{
+	gpio_on_off(gpio49,1);
+	//gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+//	gpio_on_off(gpio44,1);
+	//gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func5()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+//	gpio_on_off(gpio27,1);
+//	gpio_on_off(gpio117,1);
+}
+void func6()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+	gpio_on_off(gpio27,1);
+	//gpio_on_off(gpio117,1);
+}
+void func7()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	//gpio_on_off(gpio67,1);
+//	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+//	gpio_on_off(gpio44,1);
+//	gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func8()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+	gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void func9()
+{
+	gpio_on_off(gpio49,1);
+	gpio_on_off(gpio66,1);
+	gpio_on_off(gpio67,1);
+	gpio_on_off(gpio68,1);
+	gpio_on_off(gpio69,1);
+	gpio_on_off(gpio44,1);
+	//gpio_on_off(gpio27,1);
+	gpio_on_off(gpio117,1);
+}
+void alloff()
+{
+	gpio_on_off(gpio49,0);
+	gpio_on_off(gpio66,0);
+	gpio_on_off(gpio67,0);
+	gpio_on_off(gpio68,0);
+	gpio_on_off(gpio69,0);
+	gpio_on_off(gpio44,0);
+	gpio_on_off(gpio27,0);
+	gpio_on_off(gpio117,0);
+}
+
+
+
+void gpio_on_off(uint8_t pin,uint8_t state)
+{
+	FILE *fp1;
+
+	if(pin<8 && state<2)
+	{
+		fp1 = fopen(LED_Dir_Path[pin],"w");
+		if(fp1==NULL) printf("Error in led\n");
+		//else
+	//	printf("\n Success file open");
+	}
+	else
+	{
+		printf("\n Error in pin or state\n");
+		return ;
+	}
+
+	fseek(fp1,0,SEEK_SET);
+	fprintf(fp1,"%d",pin);
+	fseek(fp1,0,SEEK_SET);
+	fprintf(fp1,"%s","out");
+	fclose(fp1);
+
+	fp1 = 	fopen(LED_Val_Path[pin],"w");
+	if(fp1==NULL) printf("Error in led\n");
+	else
+//	printf("\n Success file open 2");
+
+	fseek(fp1,0,SEEK_SET);
+	fprintf(fp1,"%d",state);
+
+	fclose(fp1);
+
+}
 int main()
 
 {
-
+  alloff();
   TimerInit();
+  printf("[%lf] [MAIN]::Successfully created State Machine!\n", GetTime());
 	uart_setup();
 
 //	printf("Value of flag :%d\n",flag);

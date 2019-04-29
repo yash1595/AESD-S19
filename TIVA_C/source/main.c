@@ -41,64 +41,40 @@ void my_uartHandler(void)
             if(c=='a')
             {
                 flag =1;
-                no_alert();
-                UARTprintf("*******************ALER************************1\n");
+                UARTprintf("*******************ALERt[Temp]************************\n");
+                function_check();
             }
             else if(c=='n')
             {
-                function_check();
-                UARTprintf("*******************ALER************************2\n");
+                UARTprintf("*******************NOALERT[TEMP]***********************\n");
+                no_alert();
             }
             else if(c=='d')
             {
-                UARTprintf("*******************ALER************************3\n");
-                servo();
-                // flag1 = 1;
-               // function_check();
-            // servo_init();
-            // servo_pwm_config();
+                flag1 = 1;
+                UARTprintf("*******************ALERT[DISTANCE]************************\n");
+                function_check();
             }
+
             else if(c=='o')
             {
+               UARTprintf("*******************NOALERT[DISTANCE]***********************\n");
+            }
+
+            else if(c=='h')
+            {
+                UARTprintf("******************ALERT[SMOKE]****************************\n");
                 servo_alarm();
                 SysCtlDelay(1000000);
                 servo_alarm_off();
-                SysCtlDelay(1000000);
-
-              UARTprintf("*******************ALER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!4\n");
-              //RelayInit(PORTL,PIN3);
-              //RelayState(PORTL, PIN3,0);
-            }
-            else if(c=='r')
-            {
-               // servo();
-//            /  flag1 = 1;
-
-//              function_check();
-             // SysCtlDelay(2000000);
-              //servo();
-
-              UARTprintf("*******************ALER************************\n");
-
-            }
-            else if(c=='f')
-            {
-                UARTprintf("!!!!!!!!!!!!!!!!!!!!!!ALER!\n");
-
-                RelayInit(PORTL,PIN3);
-               RelayState(PORTL, PIN3,0);
-            }
-            else if(c=='h')
-            {
-                UARTprintf("Servo************\n");
             }
             else if(c=='t')
             {
-                UARTprintf("**********Servo************\n");
+                UARTprintf("******************NOALERT[SMOKE]****************************\n");
             }
             else if(c=='x')
             {
-                UARTprintf("**********Sensor Broken************\n");
+                UARTprintf("******************[SENSOR BROKEN]*****************************\n");
                 RelayInit(PORTL,PIN3);
                 RelayState(PORTL,PIN3,1);
                 SysCtlDelay(1000000);
@@ -108,27 +84,22 @@ void my_uartHandler(void)
             }
             else if(c=='y')
            {
-               UARTprintf("**********Communcation Broken TX of TIVA************\n");
-               RelayInit(PORTL,PIN3);
-               RelayState(PORTL,PIN3,1);
+               UARTprintf("**********[Communcation Broken TX of TIVA]************\n");
+               RelayInit(PORTF,PIN3);
+               RelayState(PORTF,PIN3,1);
                SysCtlDelay(1000000);
-               RelayInit(PORTL,PIN3);
-               RelayState(PORTL, PIN3,0);
-              // RelayInit(PORTF, PIN2);
-              // RelayState(PORTF, PIN2, 1);
-
-           }
+               RelayInit(PORTF,PIN3);
+               RelayState(PORTF, PIN3,0);
+            }
 
             else if(c=='z')
              {
-                 UARTprintf("**********Alert from Sensor************\n");
+                 UARTprintf("***************[Alert from Sensor]*************************\n");
                  RelayInit(PORTF,PIN2);
                  RelayState(PORTF,PIN2,1);
                  SysCtlDelay(1000000);
                  RelayInit(PORTF,PIN2);
                  RelayState(PORTF, PIN2,0);
-
-
              }
 
 

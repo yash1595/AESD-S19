@@ -96,10 +96,10 @@ void PortFunctionInit(void){
 //Function for if alert occurs due to temperature
 void temp_func()
 {
-   // UARTprintf("LCD Print\n");
+    UARTprintf("LCD Print\n");
     PortFunctionInit();
 //  GPIO_PORTN_DATA_R |= 0x01;
-    //SysCtlDelay(1500000);
+    SysCtlDelay(1500000);
     LCD_Clear();
     //while(flag==1)
     {
@@ -116,7 +116,7 @@ void temp_func()
 void no_alert()
 {
     PortFunctionInit();
-   // SysCtlDelay(200000);
+    SysCtlDelay(200000);
     LCD_Clear();
     GPIO_PORTN_DATA_R ^= 0x01;
     LCD_OutString("No Alert Temp");

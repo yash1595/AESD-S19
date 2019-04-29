@@ -102,23 +102,17 @@ void function_check()
 {
     if(flag == 1)
     {
-
-  //   UARTprintf("Alert received from Temperature\n");
      temp_func();
-     UARTprintf("Back from lcd\n");
      flag = 0;
     }
     else if(flag1 == 1)
     {
-      UARTprintf("Alert from distance\n");
       RelayInit(PORTF,PIN2);
       RelayState(PORTF,PIN2,1);
       SysCtlDelay(1000000);
       flag1 = 0;
       RelayInit(PORTF,PIN2);
       RelayState(PORTF, PIN2,0);
-      UARTprintf("*************Alert from distance**********************\n");
-
     }
 
 }

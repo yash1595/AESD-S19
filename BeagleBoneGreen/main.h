@@ -64,7 +64,19 @@
 void read_temp(void);
 void read_distance(void);
 void read_smoke(void);
-
+double GetTime();
+void func0();
+void func1();
+void func2();
+void func3();
+void func4();
+void func5();
+void func6();
+void func7();
+void func8();
+void func9();
+void gpio_on_off(uint8_t pin,uint8_t state);
+void alloff();
 
 typedef enum{gpio66=0,gpio67=1,gpio68=2,gpio69=3,gpio44=4,gpio117=5,gpio49=6,gpio27=7}PINS;
 

@@ -147,6 +147,8 @@ uint8_t SmokeStartUpTest(void);
 void smoke_task(void *pvParameters);
 void servo_alarm_off(void);
 void servo_alarm(void);
+void temp_func();
+
 
 
 
