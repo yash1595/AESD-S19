@@ -194,7 +194,7 @@ int main(void)
         startup();
 
         SysCtlDelay(1000000);
-        if(flag_startup == 0 && smoke_test_flag==0)
+        if(flag_startup == 0 && smoke_test_flag==0 && ultrasonic_test_flag ==0)
         {
 
             //servo();
