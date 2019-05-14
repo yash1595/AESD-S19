@@ -1,9 +1,9 @@
-# Subject : Advanced Embedded Software Development  
-#Author : Raj Lavingia and Yash Gupte  
-#Term : Spring 19  
-#Project : Beagle Bone – Tiva-C with Free RTOS based Home Automation
-#Sensors Used : Temperature Sensor, Ultrasonic Sensor, Finger Print Sensor, Smoke Sensor  
-#Actuators Used : Servo Motor, LCD, LED, 7 Segment Display, Buzzer
+# Project : Beagle Bone – Tiva-C with Free RTOS based Home Automation  
+**Subject** : Advanced Embedded Software Development  
+**Author** : Raj Lavingia and Yash Gupte  
+**Term** : Spring 19  
+**Sensors Used** : Temperature Sensor, Ultrasonic Sensor, Finger Print Sensor, Smoke Sensor  
+**Actuators Used** : Servo Motor, LCD, LED, 7 Segment Display, Buzzer
 
 		   
 **Project Description :**
