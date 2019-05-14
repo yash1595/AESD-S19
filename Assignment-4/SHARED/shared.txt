@@ -1,0 +1,132 @@
+
+Using Semaphores as resources implementation via Shared Memory
+
+FIRST STRING : 
+One
+
+
+STRING LENGTH : 5
+
+LED STATE : 1
+
+SECOND STRING : 
+Two
+
+
+THIRD STRING : 
+Three
+
+
+FOURTH STRING : 
+Four
+
+
+FIFTH STRING : 
+Five
+
+
+PID-1 : 21943
+
+PID-2 : 21943
+
+PID-3: 21943
+
+TIMESTAMP PARENT TO CHILD: 412763856 
+
+Using Semaphores as resources implementation via Shared Memory
+
+FIRST STRING : 
+One
+
+
+STRING LENGTH : 5
+
+LED STATE : 1
+
+SECOND STRING : 
+Two
+
+
+THIRD STRING : 
+Three
+
+
+FOURTH STRING : 
+Four
+
+
+FIFTH STRING : 
+Five
+
+
+PID-1 : 21943
+
+PID-2 : 21943
+
+PID-3: 21943
+
+TIMESTAMP PARENT TO CHILD: 412887163 
+
+FIRST STRING : 
+Second str
+
+
+STRING LENGTH : 12
+
+LED STATE : 1
+
+SECOND STRING : 
+Third str
+
+
+THIRD STRING : 
+Fourth str
+
+
+FOURTH STRING : 
+Fifth str
+
+
+FIFTH STRING : 
+Sixth str
+
+
+PID-1 : 21973
+
+PID-2 : 21973
+
+PID-3: 21973
+
+TIMESTAMP CHILD TO PARENT: 412923678 
+
+FIRST STRING : 
+Second str
+
+
+STRING LENGTH : 12
+
+LED STATE : 1
+
+SECOND STRING : 
+Third str
+
+
+THIRD STRING : 
+Fourth str
+
+
+FOURTH STRING : 
+Fifth str
+
+
+FIFTH STRING : 
+Sixth str
+
+
+PID-1 : 21973
+
+PID-2 : 21973
+
+PID-3: 21973
+
+TIMESTAMP CHILD TO PARENT: 415251839 

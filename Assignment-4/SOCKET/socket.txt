@@ -1,0 +1,132 @@
+
+Using queues as resources implementation via Sockets
+
+FIRST STRING : 
+One
+
+
+STRING LENGTH : 5
+
+LED STATE : 1
+
+SECOND STRING : 
+Two
+
+
+THIRD STRING : 
+Three
+
+
+FOURTH STRING : 
+Four
+
+
+FIFTH STRING : 
+Five
+
+
+PID-1 : 22433
+
+PID-2 : 22433
+
+PID-3: 22433
+
+TIMESTAMP PARENT TO CHILD: 389229343 
+
+Using queues as resources implementation via Sockets
+
+FIRST STRING : 
+One
+
+
+STRING LENGTH : 5
+
+LED STATE : 1
+
+SECOND STRING : 
+Two
+
+
+THIRD STRING : 
+Three
+
+
+FOURTH STRING : 
+Four
+
+
+FIFTH STRING : 
+Five
+
+
+PID-1 : 22433
+
+PID-2 : 22433
+
+PID-3: 22433
+
+TIMESTAMP PARENT TO CHILD: 389431424 
+
+FIRST STRING : 
+Second str
+
+
+STRING LENGTH : 12
+
+LED STATE : 1
+
+SECOND STRING : 
+Third str
+
+
+THIRD STRING : 
+Fourth str
+
+
+FOURTH STRING : 
+Fifth str
+
+
+FIFTH STRING : 
+Sixth str
+
+
+PID-1 : 22344
+
+PID-2 : 22344
+
+PID-3: 22344
+
+TIMESTAMP CHILD TO PARENT: 389473011 
+
+FIRST STRING : 
+Second str
+
+
+STRING LENGTH : 12
+
+LED STATE : 1
+
+SECOND STRING : 
+Third str
+
+
+THIRD STRING : 
+Fourth str
+
+
+FOURTH STRING : 
+Fifth str
+
+
+FIFTH STRING : 
+Sixth str
+
+
+PID-1 : 22344
+
+PID-2 : 22344
+
+PID-3: 22344
+
+TIMESTAMP CHILD TO PARENT: 392084340 
